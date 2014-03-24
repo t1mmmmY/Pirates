@@ -1,0 +1,12 @@
+fileFormatVersion: 2
+guid: 7ad06fa1ac536474b9a37d55f0c28105
+labels:
+- ExitGames
+- PUN
+- Photon
+- Networking
+MonoAssemblyImporter:
+  serializedVersion: 1
+  iconMap: {}
+  executionOrder: {}
+  userData: 

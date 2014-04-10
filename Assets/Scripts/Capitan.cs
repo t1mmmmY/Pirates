@@ -1,12 +1,15 @@
 ﻿using UnityEngine;
 using System.Collections;
 
-public class Capitan : MonoBehaviour 
+public class Capitan : Photon.MonoBehaviour 
 {
 
 	void Start () 
 	{
-		//Camera.main.GetComponent<CameraController>().steeringWheel = this.transform;
+		if (photonView.isMine)
+		{
+			Camera.main.GetComponent<CameraController>().steeringWheel = this.transform;
+		}
 	}
 
 }

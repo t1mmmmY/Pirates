@@ -29,20 +29,27 @@ public class InputController : Photon.MonoBehaviour
 		if (!photonView.isMine)
 		{
 			shipController.enabled = false;
-			cameraController.gameObject.SetActive(false);
+			//cameraController.gameObject.SetActive(false);
 			this.enabled = false;
 			this.GetComponent<ShipPhysic>().enabled = false;
 			this.rigidbody.isKinematic = true;
 			this.rigidbody.useGravity = false;
+		}
+		else
+		{
+			cameraController = Camera.main.GetComponent<CameraController>();
 		}
 	}
 
 
 	void Update()
 	{
-		MoveCamera();
-		SteeringWheel();
-		ChangeSails();
+		if (photonView.isMine)
+		{
+			MoveCamera();
+			SteeringWheel();
+			ChangeSails();
+		}
 	}
 
 	private Vector3 shiftCamera;
@@ -224,25 +231,28 @@ public class InputController : Photon.MonoBehaviour
 
 	void OnGUI()
 	{
-		if (GUI.Button(new Rect(10, 10, Screen.width / 10, Screen.height / 5), "+"))
+		if (photonView.isMine)
 		{
-			shipController.Forward();
-		}
-		if (GUI.Button(new Rect(10, 30 + Screen.height / 5, Screen.width / 10, Screen.height / 5), "-"))
-		{
-			shipController.Back();
-		}
+
+			if (GUI.Button(new Rect(10, 10, Screen.width / 10, Screen.height / 5), "+"))
+			{
+				shipController.Forward();
+			}
+			if (GUI.Button(new Rect(10, 30 + Screen.height / 5, Screen.width / 10, Screen.height / 5), "-"))
+			{
+				shipController.Back();
+			}
 
 
-		if (GUI.Button(new Rect(10, Screen.height - Screen.height / 5 - 20, Screen.width / 8, Screen.height / 5), "FIRE"))
-		{
-			shipController.ShotLeft();
+			if (GUI.Button(new Rect(10, Screen.height - Screen.height / 5 - 20, Screen.width / 8, Screen.height / 5), "FIRE"))
+			{
+				shipController.ShotLeft();
+			}
+			if (GUI.Button(new Rect(Screen.width - Screen.width / 8 - 10, Screen.height - Screen.height / 5 - 20, Screen.width / 10, Screen.height / 5), "FIRE"))
+			{
+				shipController.ShotRight();
+			}
 		}
-		if (GUI.Button(new Rect(Screen.width - Screen.width / 8 - 10, Screen.height - Screen.height / 5 - 20, Screen.width / 10, Screen.height / 5), "FIRE"))
-		{
-			shipController.ShotRight();
-		}
-
 	}
 
 }

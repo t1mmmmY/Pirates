@@ -1,7 +1,7 @@
 ﻿using UnityEngine;
 using System.Collections;
 
-public class ShipController : MonoBehaviour 
+public class ShipController : Photon.MonoBehaviour 
 {
 	public Transform steeringWheel;
 	public Transform wheelPivot;
@@ -35,7 +35,7 @@ public class ShipController : MonoBehaviour
 	{
 		foreach (Cannon cannon in cannonsLeft)
 		{
-			cannon.Fire();
+			cannon.Fire(1.0f);
 		}
 	}
 
@@ -43,32 +43,40 @@ public class ShipController : MonoBehaviour
 	{
 		foreach (Cannon cannon in cannonsRight)
 		{
-			cannon.Fire();
+			cannon.Fire(1.0f);
 		}
 	}
 
 	void Start()
 	{
-
-		//InputController.inputControllerScript.shipController = this;
-		Input.simulateMouseWithTouches = true;
-
-		foreach (Sails s in sails)
+		if (photonView.isMine)
 		{
-			s.CloseSails();
+			//InputController.inputControllerScript.shipController = this;
+			Input.simulateMouseWithTouches = true;
+
+			foreach (Sails s in sails)
+			{
+				s.CloseSails();
+			}
 		}
 	}
 
 	void Update()
 	{
-		SteeringWheel();
+		if (photonView.isMine)
+		{
+			SteeringWheel();
+		}
 		//ChangeSails();
 	}
 
 	void FixedUpdate()
 	{
-		Wind();
-		Rotation();
+		if (photonView.isMine)
+		{
+			Wind();
+			Rotation();
+		}
 	}
 
 	void SteeringWheel()
@@ -250,17 +258,20 @@ public class ShipController : MonoBehaviour
 	}
 
 
-	void OnGUI()
-	{
-		if (GUI.Button(new Rect(10, 10, Screen.width / 10, Screen.height / 5), "+"))
-		{
-			Forward();
-		}
-		if (GUI.Button(new Rect(10, 30 + Screen.height / 5, Screen.width / 10, Screen.height / 5), "-"))
-		{
-			Back();
-		}
-	}
+//	void OnGUI()
+//	{
+//		if (photonView.isMine)
+//		{
+//			if (GUI.Button(new Rect(10, 10, Screen.width / 10, Screen.height / 5), "+"))
+//			{
+//				Forward();
+//			}
+//			if (GUI.Button(new Rect(10, 30 + Screen.height / 5, Screen.width / 10, Screen.height / 5), "-"))
+//			{
+//				Back();
+//			}
+//		}
+//	}
 
 }
 

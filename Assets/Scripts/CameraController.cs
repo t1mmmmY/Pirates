@@ -1,7 +1,7 @@
 ﻿using UnityEngine;
 using System.Collections;
 
-public class CameraController : MonoBehaviour 
+public class CameraController : Photon.MonoBehaviour 
 {
 	public Transform steeringWheel;
 	public float speed = 10;
@@ -24,8 +24,11 @@ public class CameraController : MonoBehaviour
 
 	void FixedUpdate ()
 	{   
-		iTween.MoveUpdate(gameObject, steeringWheel.position, speed);
-		iTween.RotateUpdate(gameObject, steeringWheel.rotation.eulerAngles + shiftCamera, rotationSpeed);
+		//if (photonView.isMine)
+		{
+			iTween.MoveUpdate(gameObject, steeringWheel.position, speed);
+			iTween.RotateUpdate(gameObject, steeringWheel.rotation.eulerAngles + shiftCamera, rotationSpeed);
+		}
 	}
 
 //	void MoveCamera()

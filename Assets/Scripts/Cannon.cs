@@ -36,27 +36,33 @@ public class Cannon : MonoBehaviour
 		_cannonball.SetActive(false);
 	}
 
-	public void Fire()
+	public void Fire(float cannonSkill)
+	{
+		Invoke("_Fire", Random.Range(0.0f, cannonSkill));
+
+	}
+
+	void _Fire()
 	{
 		_effect.Play();
-
+		
 		audio.Play();
-
+		
 		StopCoroutine("DisableCannonball");
-
+		
 		_cannonball.rigidbody.velocity = Vector3.zero;
 		_cannonball.rigidbody.angularVelocity = Vector3.zero;
-
+		
 		_cannonball.transform.parent = this.transform;
 		_cannonball.transform.localPosition = Vector3.zero;
 		_cannonball.transform.localRotation = Quaternion.identity;
-
+		
 		_cannonball.SetActive(true);
 		_cannonball.transform.parent = world;
-
+		
 		//_cannonball.rigidbody.AddRelativeForce(this.transform.forward * power * 10, ForceMode.Impulse);
 		_cannonball.rigidbody.AddForce(this.transform.forward * power * forceCoef, ForceMode.Impulse);
-
+		
 		StartCoroutine("DisableCannonball", 2.0f);
 	}
 
